@@ -11,6 +11,10 @@ services:
       - type: bind
         source: ./app/src
         target: /app
+    develop:
+      watch:
+        - path: ./app/src/requirements.txt
+          action: rebuild
   nginx:
     container_name: containerize_nginx_1
     build:
@@ -33,6 +37,14 @@ services:
     ports:
       - '80:80'
       - '443:443'
+    develop:
+      watch:
+        - path: ./nginx/files/
+          action: rebuild  # hack as there's no dedicated 'restart' action
+        - path: ./nginx/nginx.conf
+          action: rebuild
+        - path: ./nginx/templates/
+          action: rebuild
 
 networks:
   internal:
