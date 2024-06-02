@@ -1,5 +1,10 @@
 FROM docker.io/python:3.12-slim-bookworm
 
+ENV PYTHONUNBUFFERED=1
+# prevents creating __pycache__ directories in the project, especially for bind mounts
+ENV PYTHONPYCACHEPREFIX=/.pycache/
+RUN mkdir /.pycache
+
 WORKDIR /app
 
 RUN python -m venv /.venv
