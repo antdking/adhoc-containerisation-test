@@ -14,9 +14,18 @@ services:
     networks:
       - external
       - internal
+    secrets:
+      - source: nginx-cert
+        target: &cert-path '/run/secrets/localhost.crt'
+        mode: 0440
+      - source: nginx-key
+        target: &cert-key-path '/run/secrets/localhost.key'
+        mode: 0440
     environment:
       APP_HOST: app
       APP_PORT: '8000'
+      SSL_APP_CERT_PATH: *cert-path
+      SSL_APP_CERT_KEY_PATH: *cert-key-path
     ports:
       - '80:80'
       - '443:443'
@@ -25,3 +34,9 @@ networks:
   internal:
     internal: true
   external: {}
+
+secrets:
+  nginx-cert:
+    file: ./nginx/files/localhost.crt
+  nginx-key:
+    file: ./nginx/files/localhost.key

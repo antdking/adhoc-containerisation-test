@@ -9,7 +9,10 @@ server {
 }
 
 server {
-    listen 443;
+    listen 443 ssl;
+    ssl_certificate ${SSL_APP_CERT_PATH};
+    ssl_certificate_key ${SSL_APP_CERT_KEY_PATH};
+
 
     location / {
         proxy_pass http://app;
