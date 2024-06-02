@@ -7,6 +7,10 @@ services:
       - internal
     expose:
       - 8000
+    volumes:
+      - type: bind
+        source: ./app/src
+        target: /app
   nginx:
     container_name: containerize_nginx_1
     build:
