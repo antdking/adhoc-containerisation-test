@@ -1,8 +1,27 @@
-version: "3"
 services:
   app:
     container_name: containerize_app_1
-    # your code goes here ...
+    build:
+      context: app
+    networks:
+      - internal
+    expose:
+      - 8000
   nginx:
     container_name: containerize_nginx_1
-    # your code goes here ...
+    build:
+      context: nginx
+    networks:
+      - external
+      - internal
+    environment:
+      APP_HOST: app
+      APP_PORT: '8000'
+    ports:
+      - '80:80'
+      - '443:443'
+
+networks:
+  internal:
+    internal: true
+  external: {}
